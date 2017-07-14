@@ -65,7 +65,7 @@ class makarov_library extends CModule
     public function doUninstall()
     {
         $this->uninstallDB();
-        ModuleManager::unregisterModule($this->MODULE_ID);
+        ModuleManager::unRegisterModule($this->MODULE_ID);
     }
 
     public function installDB()

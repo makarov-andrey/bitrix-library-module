@@ -14,11 +14,6 @@ Loc::loadMessages(__FILE__);
 
 class BookTable extends DataManager
 {
-    public static function hw()
-    {
-        echo "Hello world!";
-    }
-
     public static function getTableName()
     {
         return 'books';
@@ -40,13 +35,7 @@ class BookTable extends DataManager
                         new Validator\Length(null, 255),
                     );
                 },
-            )),
-            new IntegerField('AUTHOR_ID'),
-            new ReferenceField(
-                'AUTHOR',
-                __NAMESPACE__ . '\AuthorTable',
-                array('=this.AUTHOR_ID' => 'ref.ID')
-            )
+            ))
         );
     }
 }

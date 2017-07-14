@@ -4,7 +4,13 @@ $APPLICATION->SetTitle('Главная');
 
 Bitrix\Main\Loader::includeModule("makarov.library");
 
-\Makarov\Library\BookTable::hw();
+$result = \Makarov\Library\BookTable::add(array(
+    'TITLE' => 'Книга 1',
+));
+
+if ($result->isSuccess())
+{
+    echo $result->getId();
+}
 
 require($_SERVER['DOCUMENT_ROOT'].'/bitrix/footer.php');
-?>

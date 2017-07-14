@@ -11,7 +11,7 @@ class BookAuthorTable extends DataManager
 {
     public static function getTableName()
     {
-        return 'books';
+        return 'books_authors';
     }
 
     public static function getMap()
