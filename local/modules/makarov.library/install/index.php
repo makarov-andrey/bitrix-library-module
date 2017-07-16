@@ -60,11 +60,13 @@ class makarov_library extends CModule
     {
         ModuleManager::registerModule($this->MODULE_ID);
         $this->installDB();
+        $this->installFiles();
     }
 
     public function doUninstall()
     {
         $this->uninstallDB();
+        $this->unInstallFiles();
         ModuleManager::unRegisterModule($this->MODULE_ID);
     }
 
@@ -85,5 +87,23 @@ class makarov_library extends CModule
             $connection->dropTable(AuthorTable::getTableName());
             $connection->dropTable(BookAuthorTable::getTableName());
         }
+    }
+
+    function installFiles()
+    {
+        CopyDirFiles(
+            __DIR__ . '/admin',
+            $_SERVER['DOCUMENT_ROOT']."/bitrix/admin"
+        );
+        return true;
+    }
+
+    function unInstallFiles()
+    {
+        DeleteDirFiles(
+            __DIR__ . '/admin',
+            $_SERVER["DOCUMENT_ROOT"]."/bitrix/admin"
+        );
+        return true;
     }
 }

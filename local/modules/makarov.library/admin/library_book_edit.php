@@ -1,12 +1,8 @@
 <?php
-define('ADMIN_MODULE_NAME', 'maycat.d7dull');
-
+define('ADMIN_MODULE_NAME', 'makarov.library');
 require_once $_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_admin_before.php';
-
-
-
 require_once $_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_admin_after.php';
 
-echo "Welcome to admin area";
+echo "Книги";
 
 require_once $_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/epilog_admin.php';

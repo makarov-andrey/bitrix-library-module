@@ -2,9 +2,11 @@
 require($_SERVER['DOCUMENT_ROOT'].'/bitrix/header.php');
 $APPLICATION->SetTitle('Главная');
 
-Bitrix\Main\Loader::includeModule("makarov.library");
+$APPLICATION->IncludeComponent("makarov:library.books.list", "admin");
 
-/*function checkAddResult (\Bitrix\Main\Entity\AddResult $result) {
+/*Bitrix\Main\Loader::includeModule("makarov.library");
+
+function checkAddResult (\Bitrix\Main\Entity\AddResult $result) {
     if (!$result->isSuccess())
     {
         echo "Что-то пошло не так.";
@@ -43,6 +45,8 @@ for ($book = 1; $book <= $booksAmount; $book++) {
         ));
         checkAddResult($result);
     }
-}*/
+}
+
+echo "OK";*/
 
 require($_SERVER['DOCUMENT_ROOT'].'/bitrix/footer.php');
