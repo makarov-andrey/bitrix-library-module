@@ -25,13 +25,13 @@ class BookAuthorTable extends DataManager
                 __NAMESPACE__ . '\Book',
                 array('=this.BOOK_ID' => 'ref.ID')
             ),
-            new IntegerField('TAG_ID', array(
+            new IntegerField('AUTHOR_ID', array(
                 'primary' => true
             )),
             new ReferenceField(
                 'TAG',
                 __NAMESPACE__ . '\Author',
-                array('=this.TAG_ID' => 'ref.ID')
+                array('=this.AUTHOR_ID' => 'ref.ID')
             )
         );
     }
