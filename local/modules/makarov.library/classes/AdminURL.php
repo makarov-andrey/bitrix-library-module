@@ -16,6 +16,6 @@ class AdminURL
 
     public static function getAuthorEditURL ($authorID)
     {
-        return static::LIBRARY_ADMIN_URL_BOOK_EDIT . '?id=' . $authorID;
+        return static::LIBRARY_ADMIN_URL_AUTHOR_EDIT . '?id=' . $authorID;
     }
 }

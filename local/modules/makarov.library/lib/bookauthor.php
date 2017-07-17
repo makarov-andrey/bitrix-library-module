@@ -35,10 +35,33 @@ class BookAuthorTable extends DataManagerEx
         );
     }
 
+    /**
+     * удаляет текущих привязанных к книге авторов и сохраняет новые
+     *
+     * @param number $bookId
+     * @param array $authors
+     */
     public static function saveAuthorsForBook($bookId, $authors)
     {
         static::delete(array("BOOK_ID" => $bookId));
         foreach ($authors as $authorId) {
+            static::add(array(
+                "BOOK_ID" => $bookId,
+                "AUTHOR_ID" => $authorId
+            ));
+        }
+    }
+
+    /**
+     * удаляет текущие привязанных к автору книги и сохраняет новые
+     *
+     * @param number $authorId
+     * @param array $books
+     */
+    public static function saveBooksForAuthor($authorId, $books)
+    {
+        static::delete(array("AUTHOR_ID" => $authorId));
+        foreach ($books as $bookId) {
             static::add(array(
                 "BOOK_ID" => $bookId,
                 "AUTHOR_ID" => $authorId

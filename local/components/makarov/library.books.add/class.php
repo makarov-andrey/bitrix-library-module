@@ -29,6 +29,7 @@ class LibraryBooksAdd extends CBitrixComponent
     function executeComponent()
     {
         $this->postProcessing();
+
         $this->book = BookTable::getByIdWithAuthors($this->getBookId());
         $this->authors = AuthorTable::getList()->fetchAll();
         $this->markSelectedAuthors();
@@ -47,26 +48,23 @@ class LibraryBooksAdd extends CBitrixComponent
 
         $bookId = $this->getBookId();
         $redirectURL = null;
+
         if ($bookId) {
             BookTable::update($bookId, $book);
         } else {
             $addResult = BookTable::add($book);
             $bookId = $addResult->getId();
-            global $APPLICATION;
-            $redirectURL = $APPLICATION->GetCurPageParam(
-                $this->arParams["BOOK_ID_GET_PARAMETER"] . "=" . $bookId,
-                $this->arParams["BOOK_ID_GET_PARAMETER"]
-            );
+            $redirectURL = $this->getEditURL($bookId);
         }
 
         $authors = $_POST["authors"];
         BookAuthorTable::saveAuthorsForBook($bookId, $authors);
 
+        if (!$redirectURL && $this->needRedirect()) {
+            $redirectURL = $this->arParams["REDIRECT_AFTER_SAVE"];
+        }
         if ($redirectURL) {
             LocalRedirect($redirectURL);
-        }
-        if (isset($_POST["save"]) && isset($this->arParams["REDIRECT_AFTER_SAVE"])) {
-            LocalRedirect($this->arParams["REDIRECT_AFTER_SAVE"]);
         }
     }
 
@@ -75,6 +73,20 @@ class LibraryBooksAdd extends CBitrixComponent
         return $_SERVER["REQUEST_METHOD"] == "POST"
             && isset($_POST["book_add_form"])
             && check_bitrix_sessid();
+    }
+
+    protected function needRedirect ()
+    {
+        return isset($_POST["save"]) && isset($this->arParams["REDIRECT_AFTER_SAVE"]);
+    }
+
+    protected function getEditURL ($bookId)
+    {
+        global $APPLICATION;
+        return $APPLICATION->GetCurPageParam(
+            $this->arParams["BOOK_ID_GET_PARAMETER"] . "=" . $bookId,
+            $this->arParams["BOOK_ID_GET_PARAMETER"]
+        );
     }
 
     protected function getBookId()

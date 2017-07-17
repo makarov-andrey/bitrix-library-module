@@ -2,7 +2,7 @@
 
 use Makarov\Library\AuthorTable;
 
-class LibraryBooksList extends CBitrixComponent
+class LibraryAuthorsList extends CBitrixComponent
 {
     protected $authors = array();
 

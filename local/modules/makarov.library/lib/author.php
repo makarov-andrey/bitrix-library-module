@@ -36,4 +36,52 @@ class AuthorTable extends DataManagerEx
             ))
         );
     }
+
+    /**
+     * Возвращает массив книг с вложенным массивом авторов.
+     *
+     * @param array $params
+     * @return array
+     */
+    public static function getWithBooks($params = array())
+    {
+        if (!is_array($params["select"])) {
+            $params["select"] = array("*");
+        }
+        $params["select"]["BOOK_"] = BookAuthorTable::getQueryEntityName() . ":AUTHOR.BOOK.*";
+        $result = static::getList($params);
+        $authors = array();
+        while ($row = $result->fetch()) {
+            if (!$authors[$row["ID"]]) {
+                $authors[$row["ID"]] = array(
+                    "ID" => $row["ID"],
+                    "NAME" => $row["NAME"],
+                    "BOOKS" => array()
+                );
+            }
+            $authors[$row["ID"]]["BOOKS"][] = array(
+                "ID" => $row["BOOK_ID"],
+                "TITLE" => $row["BOOK_TITLE"],
+            );
+        }
+        return $authors;
+    }
+
+    /**
+     * Возвращает книгу с вложенным массивом авторов.
+     * Если книги с атким id не существует, возвращает null.
+     *
+     * @param $id
+     * @param array $params
+     * @return array|null
+     */
+    public static function getByIdWithBooks($id, $params = array())
+    {
+        if (!is_array($params["filter"])) {
+            $params["filter"] = array();
+        }
+        $params["filter"]["ID"] = $id;
+        $result = static::getWithBooks($params);
+        return !empty($result) ? reset($result) : null;
+    }
 }

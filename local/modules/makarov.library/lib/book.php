@@ -50,7 +50,7 @@ class BookTable extends DataManagerEx
             $params["select"] = array("*");
         }
         $params["select"]["AUTHOR_"] = BookAuthorTable::getQueryEntityName() . ":BOOK.AUTHOR.*";
-        $result = BookTable::getList($params);
+        $result = static::getList($params);
         $books = array();
         while ($row = $result->fetch()) {
             if (!$books[$row["ID"]]) {
