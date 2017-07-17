@@ -2,12 +2,15 @@
 define('ADMIN_MODULE_NAME', 'makarov.library');
 require_once $_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_admin_before.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_admin_after.php';
+CModule::IncludeModule("makarov.library");
+
+use Makarov\Library\AdminURL;
 
 $APPLICATION->IncludeComponent(
     "makarov:library.books.add",
     "admin",
     array(
-        "ID" => $_GET["id"]
+        "REDIRECT_AFTER_SAVE" => AdminURL::LIBRARY_ADMIN_URL_BOOKS
     )
 );
 

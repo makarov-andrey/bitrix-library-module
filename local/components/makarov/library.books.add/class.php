@@ -19,9 +19,9 @@ class LibraryBooksAdd extends CBitrixComponent
 
     function onPrepareComponentParams($arParams)
     {
-        $arParams["ID"] = (int)$arParams["ID"];
-        if ($arParams["ID"] <= 0) {
-            unset($arParams["ID"]);
+        $arParams["BOOK_ID_GET_PARAMETER"] = (string)$arParams["BOOK_ID_GET_PARAMETER"];
+        if (empty($arParams["BOOK_ID_GET_PARAMETER"])) {
+            $arParams["BOOK_ID_GET_PARAMETER"] = "id";
         }
         return parent::onPrepareComponentParams($arParams);
     }
@@ -29,7 +29,7 @@ class LibraryBooksAdd extends CBitrixComponent
     function executeComponent()
     {
         $this->postProcessing();
-        $this->book = BookTable::getByIdWithAuthors($this->arParams["ID"]);
+        $this->book = BookTable::getByIdWithAuthors($this->getBookId());
         $this->authors = AuthorTable::getList()->fetchAll();
         $this->markSelectedAuthors();
         $this->compareArResult();
@@ -45,15 +45,29 @@ class LibraryBooksAdd extends CBitrixComponent
             "TITLE" => $_POST["title"]
         );
 
-        if (isset($this->arParams["ID"])) {
-            BookTable::update($this->arParams["ID"], $book);
+        $bookId = $this->getBookId();
+        $redirectURL = null;
+        if ($bookId) {
+            BookTable::update($bookId, $book);
         } else {
             $addResult = BookTable::add($book);
-            $this->arParams["ID"] = $addResult->getId();
+            $bookId = $addResult->getId();
+            global $APPLICATION;
+            $redirectURL = $APPLICATION->GetCurPageParam(
+                $this->arParams["BOOK_ID_GET_PARAMETER"] . "=" . $bookId,
+                $this->arParams["BOOK_ID_GET_PARAMETER"]
+            );
         }
 
         $authors = $_POST["authors"];
-        BookAuthorTable::saveAuthorsForBook($this->arParams["ID"], $authors);
+        BookAuthorTable::saveAuthorsForBook($bookId, $authors);
+
+        if ($redirectURL) {
+            LocalRedirect($redirectURL);
+        }
+        if (isset($_POST["save"]) && isset($this->arParams["REDIRECT_AFTER_SAVE"])) {
+            LocalRedirect($this->arParams["REDIRECT_AFTER_SAVE"]);
+        }
     }
 
     protected function isPostRequest()
@@ -61,6 +75,12 @@ class LibraryBooksAdd extends CBitrixComponent
         return $_SERVER["REQUEST_METHOD"] == "POST"
             && isset($_POST["book_add_form"])
             && check_bitrix_sessid();
+    }
+
+    protected function getBookId()
+    {
+        $id = (int) $_GET[$this->arParams["BOOK_ID_GET_PARAMETER"]];
+        return $id > 0 ? $id : null;
     }
 
     protected function markSelectedAuthors()

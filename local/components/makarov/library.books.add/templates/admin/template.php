@@ -15,35 +15,44 @@ if (!empty($arResult["BOOK"])) {
 ?>
 
 <form action="<?= $APPLICATION->GetCurPageParam() ?>" method="post">
+    <input type="hidden" name="sessid" value="<?= bitrix_sessid() ?>">
+    <input type="hidden" name="book_add_form">
+
     <?php
     $tabControl = new CAdminTabControl("tabControl", array($tabParams));
     $tabControl->Begin();
     $tabControl->BeginNextTab();
     ?>
-
-    <input type="hidden" name="sessid" value="<?= bitrix_sessid() ?>">
-    <input type="hidden" name="book_add_form">
-
     <? if(!empty($arResult["BOOK"])): ?>
-        ID: <?= $arResult["BOOK"]["ID"] ?>
-        <br>
+        <tr>
+            <td class="adm-detail-content-cell-l">ID:</td>
+            <td class="adm-detail-content-cell-r"><?= $arResult["BOOK"]["ID"] ?></td>
+        </tr>
     <? endif ?>
 
-    <label for="title">Название:</label>
-    <input type="text" name="title" value="<?= $arResult["BOOK"]["TITLE"] ?>" id="title">
-    <br>
+    <tr class="adm-detail-required-field">
+        <td class="adm-detail-content-cell-l">
+            <label for="title">Название:</label>
+        </td>
+        <td class="adm-detail-content-cell-r">
+            <input type="text" name="title" value="<?= $arResult["BOOK"]["TITLE"] ?>" id="title">
+        </td>
+    </tr>
 
-    <label for="authors">Авторы:</label>
-    <select name="authors[]" id="authors" multiple>
-        <? foreach($arResult["AUTHORS"] as $author): ?>
-            <option value="<?= $author["ID"] ?>" <?= ($author["SELECTED"] ? "selected" : "") ?>>
-                [<?= $author["ID"] ?>] <?= $author["NAME"] ?>
-            </option>
-        <? endforeach ?>
-    </select>
-    <br>
-
-    <input type="submit" value="Сохранить">
+    <tr>
+        <td class="adm-detail-content-cell-l">
+            <label for="authors">Авторы:</label>
+        </td>
+        <td class="adm-detail-content-cell-r">
+            <select name="authors[]" id="authors" multiple>
+                <? foreach($arResult["AUTHORS"] as $author): ?>
+                    <option value="<?= $author["ID"] ?>" <?= ($author["SELECTED"] ? "selected" : "") ?>>
+                        [<?= $author["ID"] ?>] <?= $author["NAME"] ?>
+                    </option>
+                <? endforeach ?>
+            </select>
+        </td>
+    </tr>
 
     <?php
     $tabControl->Buttons(array(
