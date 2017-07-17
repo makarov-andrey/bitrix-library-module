@@ -8,6 +8,7 @@ use Bitrix\Main\ModuleManager;
 use Makarov\Library\BookTable;
 use Makarov\Library\AuthorTable;
 use Makarov\Library\BookAuthorTable;
+use Bitrix\Main\IO\Directory;
 
 Loc::loadMessages(__FILE__);
 
@@ -95,7 +96,12 @@ class makarov_library extends CModule
             __DIR__ . '/admin',
             $_SERVER['DOCUMENT_ROOT']."/bitrix/admin"
         );
-        return true;
+        CopyDirFiles(
+            __DIR__ . '/components',
+            $_SERVER['DOCUMENT_ROOT']."/local/components",
+            true,
+            true
+        );
     }
 
     function unInstallFiles()
@@ -104,6 +110,6 @@ class makarov_library extends CModule
             __DIR__ . '/admin',
             $_SERVER["DOCUMENT_ROOT"]."/bitrix/admin"
         );
-        return true;
+        Directory::deleteDirectory($_SERVER['DOCUMENT_ROOT']."/local/components/makarov");
     }
 }
