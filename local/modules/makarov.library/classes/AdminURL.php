@@ -4,18 +4,20 @@ namespace Makarov\Library;
 
 class AdminURL
 {
-    const LIBRARY_ADMIN_URL_BOOKS = ADMIN_URL . '/library_books.php';
-    const LIBRARY_ADMIN_URL_BOOK_EDIT = ADMIN_URL . '/library_book_edit.php';
-    const LIBRARY_ADMIN_URL_AUTHORS = ADMIN_URL . '/library_authors.php';
-    const LIBRARY_ADMIN_URL_AUTHOR_EDIT = ADMIN_URL . '/library_author_edit.php';
+    const BOOKS_LIST = ADMIN_URL . '/library_books.php';
+    const BOOK_ADD = ADMIN_URL . '/library_book_edit.php';
+    const BOOK_DELETE = ADMIN_URL . '/library_book_delete.php';
+    const AUTHORS_LIST = ADMIN_URL . '/library_authors.php';
+    const AUTHOR_ADD = ADMIN_URL . '/library_author_edit.php';
+    const AUTHOR_DELETE = ADMIN_URL . '/library_author_delete.php';
 
-    public static function getBookEditURL ($bookID)
+    public static function bookEdit ($bookID)
     {
-        return static::LIBRARY_ADMIN_URL_BOOK_EDIT . '?id=' . $bookID;
+        return static::BOOK_ADD . '?id=' . $bookID;
     }
 
-    public static function getAuthorEditURL ($authorID)
+    public static function authorEdit ($authorID)
     {
-        return static::LIBRARY_ADMIN_URL_AUTHOR_EDIT . '?id=' . $authorID;
+        return static::AUTHOR_ADD . '?id=' . $authorID;
     }
 }

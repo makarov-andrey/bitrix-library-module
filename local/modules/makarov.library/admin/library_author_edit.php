@@ -10,7 +10,7 @@ $APPLICATION->IncludeComponent(
     "makarov:library.authors.edit",
     "admin",
     array(
-        "REDIRECT_AFTER_SAVE" => AdminURL::LIBRARY_ADMIN_URL_AUTHORS
+        "REDIRECT_AFTER_SAVE" => AdminURL::AUTHORS_LIST
     )
 );
 

@@ -16,7 +16,7 @@ if (!empty($arResult["AUTHOR"])) {
 
 <form action="<?= $APPLICATION->GetCurPageParam() ?>" method="post">
     <input type="hidden" name="sessid" value="<?= bitrix_sessid() ?>">
-    <input type="hidden" name="author_edit_form">
+    <input type="hidden" name="author_edit">
 
     <?php
     $tabControl = new CAdminTabControl("tabControl", array($tabParams));
@@ -57,7 +57,7 @@ if (!empty($arResult["AUTHOR"])) {
     <?php
     $tabControl->Buttons(array(
         "disabled" => false,
-        "back_url" => AdminURL::LIBRARY_ADMIN_URL_BOOKS
+        "back_url" => AdminURL::BOOKS_LIST
     ));
     $tabControl->End();
     ?>

@@ -70,7 +70,7 @@ class LibraryAuthorsAdd extends CBitrixComponent
     protected function isPostRequest()
     {
         return $_SERVER["REQUEST_METHOD"] == "POST"
-            && isset($_POST["author_edit_form"])
+            && isset($_POST["author_edit"])
             && check_bitrix_sessid();
     }
 
