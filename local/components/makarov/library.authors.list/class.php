@@ -4,25 +4,22 @@ use Makarov\Library\AuthorTable;
 
 class LibraryBooksList extends CBitrixComponent
 {
-    public $books = array();
+    protected $authors = array();
 
-    public function __construct($component = null)
+    function __construct($component = null)
     {
         CModule::includeModule("makarov.library");
         parent::__construct($component);
     }
 
-    public function executeComponent()
+    function executeComponent()
     {
-        $this->books = $this->getData();
-        $this->arResult["AUTHORS"] = $this->books;
+        $this->authors = AuthorTable::getList()->fetchAll();
+        $this->compareArResult();
         $this->includeComponentTemplate();
     }
 
-    public function getData () {
-        $result = AuthorTable::getList(array(
-            "select" => array("*")
-        ));
-        return $result->fetchAll();
+    protected function compareArResult () {
+        $this->arResult["AUTHORS"] = $this->authors;
     }
 }

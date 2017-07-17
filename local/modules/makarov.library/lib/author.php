@@ -3,7 +3,6 @@ namespace Makarov\Library;
 
 defined('B_PROLOG_INCLUDED') and (B_PROLOG_INCLUDED === true) or die();
 
-use Bitrix\Main\Entity\DataManager;
 use Bitrix\Main\Entity\IntegerField;
 use Bitrix\Main\Entity\StringField;
 use Bitrix\Main\Entity\Validator;
@@ -11,7 +10,7 @@ use Bitrix\Main\Localization\Loc;
 
 Loc::loadMessages(__FILE__);
 
-class AuthorTable extends DataManager
+class AuthorTable extends DataManagerEx
 {
     public static function getTableName()
     {
