@@ -20,20 +20,17 @@ if($_REQUEST["mode"] == 'list' || $_REQUEST["mode"] == 'frame' || $_REQUEST["mod
 }
 
 $sTableID = "tbl_books_list";
-$oSort = new CAdminSorting($sTableID, "ID", "asc");
-$adminList = new CAdminList($sTableID, $oSort);
+$adminList = new CAdminList($sTableID);
 
 $adminList->AddHeaders(Array(
     array(
         "id" => "ID",
         "content" => "ID",
-        "sort" => "ID",
         "default" => "true"
     ),
     array(
         "id" => "TITLE",
         "content" => "TITLE",
-        "sort" => "TITLE",
         "default" => "true"
     ),
 ));
