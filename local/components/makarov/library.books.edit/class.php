@@ -71,7 +71,7 @@ class LibraryBooksAdd extends CBitrixComponent
     protected function isPostRequest()
     {
         return $_SERVER["REQUEST_METHOD"] == "POST"
-            && isset($_POST["book_add_form"])
+            && isset($_POST["book_edit_form"])
             && check_bitrix_sessid();
     }
 

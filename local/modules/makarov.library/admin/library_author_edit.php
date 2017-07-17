@@ -7,7 +7,7 @@ CModule::IncludeModule("makarov.library");
 use Makarov\Library\AdminURL;
 
 $APPLICATION->IncludeComponent(
-    "makarov:library.authors.add",
+    "makarov:library.authors.edit",
     "admin",
     array(
         "REDIRECT_AFTER_SAVE" => AdminURL::LIBRARY_ADMIN_URL_AUTHORS

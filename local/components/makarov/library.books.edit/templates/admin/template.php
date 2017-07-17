@@ -16,7 +16,7 @@ if (!empty($arResult["BOOK"])) {
 
 <form action="<?= $APPLICATION->GetCurPageParam() ?>" method="post">
     <input type="hidden" name="sessid" value="<?= bitrix_sessid() ?>">
-    <input type="hidden" name="book_add_form">
+    <input type="hidden" name="book_edit_form">
 
     <?php
     $tabControl = new CAdminTabControl("tabControl", array($tabParams));
