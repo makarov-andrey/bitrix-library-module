@@ -4,7 +4,7 @@ defined('B_PROLOG_INCLUDED') and (B_PROLOG_INCLUDED === true) or die();
 use Makarov\Library\AdminURL;
 
 $APPLICATION->IncludeComponent(
-    "makarov:library.authors.delete",
+    "makarov:library.books.delete",
     "js_redirect",
     array(
         "DISABLE_POST_PROCESSING" => true
