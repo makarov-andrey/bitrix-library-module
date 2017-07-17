@@ -3,6 +3,22 @@ defined('B_PROLOG_INCLUDED') and (B_PROLOG_INCLUDED === true) or die();
 
 use Makarov\Library\AdminURL;
 
+$APPLICATION->IncludeComponent(
+    "makarov:library.authors.delete",
+    "js_redirect",
+    array(
+        "DISABLE_POST_PROCESSING" => false
+    )
+);
+
+/*
+ * Битрикс не умеет работать с буфером, если вызвать prolog_admin_after.php
+ * раньше, чем CAdminList::prolog_admin_after поэтому помогаем ему костылём.
+ */
+if($_REQUEST["mode"] == 'list' || $_REQUEST["mode"] == 'frame' || $_REQUEST["mode"] == 'settings') {
+    $APPLICATION->RestartBuffer();
+}
+
 $sTableID = "tbl_authors_list";
 $oSort = new CAdminSorting($sTableID, "ID", "asc");
 $adminList = new CAdminList($sTableID, $oSort);
@@ -59,14 +75,8 @@ foreach ($arResult["AUTHORS"] as $author) {
     $row->AddActions($arActions);
 }
 
-//$adminList->setNavigation($arResult["NAVIGATION"], GetMessage("PAGES"));
+$adminList->setNavigation($arResult["NAVIGATION"], GetMessage("PAGER_TITLE"));
+
+$adminList->CheckListMode();
 
 $adminList->DisplayList();
-
-?>
-
-<form action="<?= AdminURL::AUTHOR_DELETE ?>" method="post" style="display: none;" id="deleting_author_form">
-    <?= bitrix_sessid_post() ?>
-    <input type="hidden" name="author_delete">
-    <input type="hidden" name="id" id="deleting_author_id_input">
-</form>

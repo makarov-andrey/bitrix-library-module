@@ -10,6 +10,12 @@ class LibraryBooksDelete extends CBitrixComponent
         parent::__construct($component);
     }
 
+    function onPrepareComponentParams($arParams)
+    {
+        $arParams["DISABLE_POST_PROCESSING"] = $arParams["DISABLE_POST_PROCESSING"] === true;
+        return parent::onPrepareComponentParams($arParams);
+    }
+
     function executeComponent()
     {
         $this->postProcessing();
@@ -35,6 +41,7 @@ class LibraryBooksDelete extends CBitrixComponent
     protected function isPostRequest()
     {
         return $_SERVER["REQUEST_METHOD"] == "POST"
+            && !$this->arParams["DISABLE_POST_PROCESSING"]
             && isset($_POST["author_delete"])
             && check_bitrix_sessid();
     }

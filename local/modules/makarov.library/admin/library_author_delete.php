@@ -6,7 +6,7 @@ CModule::IncludeModule("makarov.library");
 use Makarov\Library\AdminURL;
 
 $APPLICATION->IncludeComponent(
-    "makarov:library.author.delete",
+    "makarov:library.authors.delete",
     "",
     array(
         "REDIRECT" => AdminURL::AUTHORS_LIST

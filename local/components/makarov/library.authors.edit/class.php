@@ -59,7 +59,7 @@ class LibraryAuthorsAdd extends CBitrixComponent
         $books = $_POST["books"];
         BookAuthorTable::saveBooksForAuthor($authorId, $books);
 
-        if (!$redirectURL && $this->needRedirect()) {
+        if ($this->needRedirectAfterSave()) {
             $redirectURL = $this->arParams["REDIRECT_AFTER_SAVE"];
         }
         if ($redirectURL) {
@@ -74,7 +74,7 @@ class LibraryAuthorsAdd extends CBitrixComponent
             && check_bitrix_sessid();
     }
 
-    protected function needRedirect ()
+    protected function needRedirectAfterSave ()
     {
         return isset($_POST["save"]) && isset($this->arParams["REDIRECT_AFTER_SAVE"]);
     }

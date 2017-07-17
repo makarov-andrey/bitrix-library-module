@@ -3,6 +3,22 @@ defined('B_PROLOG_INCLUDED') and (B_PROLOG_INCLUDED === true) or die();
 
 use Makarov\Library\AdminURL;
 
+$APPLICATION->IncludeComponent(
+    "makarov:library.authors.delete",
+    "js_redirect",
+    array(
+        "DISABLE_POST_PROCESSING" => true
+    )
+);
+
+/*
+ * Битрикс не умеет работать с буфером, если вызвать prolog_admin_after.php
+ * раньше, чем CAdminList::prolog_admin_after поэтому помогаем ему костылём.
+ */
+if($_REQUEST["mode"] == 'list' || $_REQUEST["mode"] == 'frame' || $_REQUEST["mode"] == 'settings') {
+    $APPLICATION->RestartBuffer();
+}
+
 $sTableID = "tbl_books_list";
 $oSort = new CAdminSorting($sTableID, "ID", "asc");
 $adminList = new CAdminList($sTableID, $oSort);
@@ -26,7 +42,7 @@ $adminList->AddAdminContextMenu(array(
     array(
         "ICON" => "btn_new",
         "TEXT" => GetMessage("ADD_BUTTON"),
-        "LINK" => AdminURL::AUTHOR_ADD,
+        "LINK" => AdminURL::BOOK_ADD,
         "LINK_PARAM" => "",
         "TITLE" => GetMessage("ADD_BUTTON_TITLE")
     )
@@ -59,14 +75,8 @@ foreach ($arResult["BOOKS"] as $book) {
     $row->AddActions($arActions);
 }
 
-//$adminList->setNavigation($arResult["NAVIGATION"], GetMessage("PAGES"));
+$adminList->setNavigation($arResult["NAVIGATION"], GetMessage("PAGER_TITLE"));
+
+$adminList->CheckListMode();
 
 $adminList->DisplayList();
-
-?>
-
-<form action="<?= AdminURL::BOOK_DELETE ?>" method="post" style="display: none;" id="deleting_book_form">
-    <?= bitrix_sessid_post() ?>
-    <input type="hidden" name="book_delete">
-    <input type="hidden" name="id" id="deleting_book_id_input">
-</form>
